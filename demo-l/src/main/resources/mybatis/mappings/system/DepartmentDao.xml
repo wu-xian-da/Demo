@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jianfei.w.dao.system.DepartmentDao">
+	
+	<sql id="DepartmentColumns">
+		a.id,
+		a.name,
+		a.sort,
+		a.parent_id AS "parent.id",
+		b.name AS "parent.name"
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_department(
+			name, 
+			sort
+			<if test="parent != null and parent.id != null">
+			,parent_id
+			</if>
+		) VALUES (
+			#{name}, 
+			#{sort}
+			<if test="parent != null and parent.id != null">
+			,#{parent.id}
+			</if>
+		)
+	</insert>
+	
+	<delete id="delete">
+		DELETE FROM t_department WHERE id=#{id}
+	</delete>
+	
+	<update id="update">
+		UPDATE t_department SET
+		name=#{name},
+		sort=#{sort}
+		<if test="parent != null and parent.id != null">
+		,parent_id=#{parent.id}
+		</if>
+		WHERE id=#{id}
+	</update>
+	
+	<select id="get" resultType="Department">
+		SELECT <include refid="DepartmentColumns" />
+		FROM t_department a LEFT JOIN t_department b ON a.parent_id=b.id 
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="getParent" resultType="Department">
+		SELECT id, name
+		FROM t_department
+		WHERE parent_id=-1
+	</select>
+	
+	<select id="findAll" resultType="Department">
+		SELECT a.id,a.name
+		FROM t_department a
+		ORDER BY a.id DESC
+	</select>
+	
+	<select id="findPage" resultType="Department">
+		SELECT <include refid="DepartmentColumns" />
+		FROM t_department a LEFT JOIN t_department b ON a.parent_id=b.id 
+		<where>
+			<if test="name != null">
+				a.name like CONCAT('%',#{name},'%') 
+			</if>
+			<if test="parent != null and parent.id != null">
+				AND a.parent_id=#{parent.id}
+			</if>
+		</where>
+		ORDER BY a.id DESC
+	</select>
+	
+</mapper>

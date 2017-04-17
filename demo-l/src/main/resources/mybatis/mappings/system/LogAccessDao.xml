@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jianfei.w.dao.system.LogAccessDao">
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_log_access(
+			user_id,
+			date,
+			requestUrl,
+			params,
+			ip
+		) VALUES (
+			#{user.id},
+			#{date}, 
+			#{requestUrl}, 
+			#{params}, 
+			#{ip}
+		)
+	</insert>
+	
+	<select id="findPage" resultType="LogAccess">
+		SELECT 
+			a.user_id AS "user.id",
+			b.loginName AS "user.loginName",
+			a.date,
+			a.requestUrl,
+			a.params,
+			a.ip
+		FROM t_log_access a LEFT JOIN t_user b ON a.user_id=b.id
+		<where>
+			<if test="user != null and user.loginName != null and user.loginName != ''">
+				b.loginName=#{user.loginName} 
+			</if>
+			<if test="ip != null and ip != ''">
+				AND a.ip=#{ip}
+			</if>
+		</where>
+		ORDER BY a.id DESC
+	</select>
+</mapper>
