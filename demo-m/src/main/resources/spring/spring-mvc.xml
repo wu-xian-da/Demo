@@ -4,7 +4,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	
-    <context:component-scan base-package="com.jianfei.w.controller" use-default-filters="false">
+    <context:component-scan base-package="com.jianfei.d.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
     </context:component-scan>
@@ -25,7 +25,7 @@
     <mvc:interceptors>
     	<mvc:interceptor>
     		<mvc:mapping path="/**" />
-			<bean class="com.jianfei.w.base.interceptor.LogAccessInterceptor" />
+			<bean class="com.jianfei.d.base.interceptor.LogAccessInterceptor" />
     	</mvc:interceptor>
     </mvc:interceptors>
     

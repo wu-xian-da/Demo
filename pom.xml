@@ -37,7 +37,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.7</jdk.version>
 
-		<db.name>witplat</db.name>
+		<db.name>demo</db.name>
 	</properties>
 
 	<dependencyManagement>
@@ -355,7 +355,7 @@
 						</archive>
 					</configuration>
 				</plugin>
-
+				<!--  -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
@@ -417,7 +417,7 @@
 				<jdbc.password>${passwordPro}</jdbc.password>
 
 				<!-- manager config -->
-				<managerBaseUrl>D:/upload</managerBaseUrl>
+				<managerBaseUrl>E:/upload</managerBaseUrl>
 				<webDomain>127.0.0.1:9090</webDomain>
 				<siteName>建飞科联</siteName>
 				<manager.pool.init>5</manager.pool.init>
@@ -425,7 +425,7 @@
 				<manager.pool.maxActive>10</manager.pool.maxActive>
 
 				<!-- wen config -->
-				<web.freemark.path>D:/upload/manager</web.freemark.path>
+				<web.freemark.path>E:/upload/manager</web.freemark.path>
 				<web.freemark.delay>0</web.freemark.delay>
 				<web.pool.init>5</web.pool.init>
 				<web.pool.minIdle>5</web.pool.minIdle>

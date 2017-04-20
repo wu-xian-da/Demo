@@ -14,7 +14,7 @@
 
 	<description>Spring公共配置 </description>
 
-	<context:component-scan base-package="com.jianfei.w">
+	<context:component-scan base-package="com.jianfei.d">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
@@ -22,5 +22,5 @@
 	<util:properties id="settings" location="classpath:config/*.properties" />
 	<context:property-placeholder properties-ref="settings" />
 
-	<bean class="com.jianfei.w.common.utils.SpringContextHolder" />
+	<bean class="com.jianfei.d.common.utils.SpringContextHolder" />
 </beans>
