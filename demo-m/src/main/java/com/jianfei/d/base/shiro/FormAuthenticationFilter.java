@@ -32,7 +32,7 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
 
     protected void setFailureAttribute(ServletRequest request, AuthenticationException ae) {
     	ae.printStackTrace();
-    	request.setAttribute(Constants.MESSAGE, "登陆出错");
+    	request.setAttribute(Constants.MESSAGE, ae.getMessage());
         super.setFailureAttribute(request, ae);
     }
 
@@ -55,7 +55,6 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
         try{
             this.logLoginService.save(new LogLogin(
                     getUsername(request), 
-                    request.getParameterMap().toString(), 
                     new Date(), 
                     httpRequest.getHeader(UA), 
                     HttpUtils.getRemoteAddr(httpRequest), 

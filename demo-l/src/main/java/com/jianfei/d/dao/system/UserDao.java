@@ -13,4 +13,6 @@ public interface UserDao extends CrudDao<User>{
     
     public User findByLoginName(String loginName);
     
+    public int modifyPassword(User user);
+    
 }

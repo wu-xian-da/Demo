@@ -154,5 +154,30 @@ public class NavBaseService extends CrudService<NavBaseDao, NavBase>{
 	public int updateNavBaseStatusBatch(List<NavBase> navBases){
 		return this.dao.updateNavBaseStatusBatch(navBases);
 	}
+	
+	//web
+	public List<NavBase> getShowFirstNavList(){
+		return this.dao.getShowFirstNavList();
+		
+	}
+	
+	/******
+	 * 获取一级展示导航详情
+	 * @param id
+	 * @return
+	 */
+	public NavBase getShowFirstNavById(Long id){
+		return this.dao.getShowFirstNavById(id);
+	}
+	
+	/******
+	 * 根据父级展示导航，提取二级展示导航
+	 * @param parentId
+	 * @return
+	 */
+	public List<NavBase> getShowSecNavListByParentId(Long parentId){
+		return this.dao.getShowSecNavListByParentId(parentId);
+	}
+	//web end
 
 }

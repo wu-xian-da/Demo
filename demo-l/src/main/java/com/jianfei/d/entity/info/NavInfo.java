@@ -27,17 +27,17 @@ public class NavInfo extends BaseEntity{
 	
 	private static final long serialVersionUID = -7790186226216712582L;
 
-	@NotBlank(message="信息名称不能为空")
-    @Length(max=500, message="信息名称长度不能超过500")
+	//@NotBlank(message="信息名称不能为空")
+    //@Length(max=500, message="信息名称长度不能超过500")
 	@FormQuery
 	private String title;//标题
 
-	@NotBlank(message="信息类型不能为空")
-	@FormQuery
+	//@NotBlank(message="信息类型不能为空")
+	//@FormQuery
     private InfoType type;//类型(交通类;文章类等)
 
     @FormQuery
-    private InfoStatus status = InfoStatus.DSH;//状态(待审核;审核通过;已上刊;已下刊)
+    private InfoStatus status;//状态(待审核;审核通过;已上刊;已下刊)
 
     private Long navId;//所属栏目ID
     @FormQuery("navBase.id")

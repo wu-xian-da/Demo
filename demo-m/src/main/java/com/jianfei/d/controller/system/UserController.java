@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +18,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jianfei.d.common.config.Constants;
 import com.jianfei.d.common.utils.PasswordHelper;
+import com.jianfei.d.common.utils.SessionUtils;
+import com.jianfei.d.common.vo.MessageStatus;
 import com.jianfei.d.controller.base.BaseController;
-import com.jianfei.w.entity.common.UserStatus;
-import com.jianfei.w.entity.system.User;
-import com.jianfei.w.service.system.DepartmentService;
-import com.jianfei.w.service.system.RoleService;
-import com.jianfei.w.service.system.UserService;
+import com.jianfei.d.entity.common.UserStatus;
+import com.jianfei.d.entity.system.User;
+import com.jianfei.d.service.system.DepartmentService;
+import com.jianfei.d.service.system.RoleService;
+import com.jianfei.d.service.system.UserService;
 
 /**
  * 系统用户
@@ -47,7 +50,7 @@ public class UserController extends BaseController{
     
     private void setModel(Model model){
         model.addAttribute("roles", this.roleService.findAll());
-        model.addAttribute("departments", this.departmentService.findAll());
+        model.addAttribute("departmentsTree", super.buildTree(this.departmentService.findTree()));
     }
 
 	@GetMapping("/create")
@@ -57,16 +60,10 @@ public class UserController extends BaseController{
 	}
 
 	@PostMapping("/create")
-	public String create(@Valid User user, BindingResult result, Model model, RedirectAttributes attrs) {
-	    if(result.hasErrors()){
-	        setModel(model);
-            return "system/user/form";
-        }
-	    
-	    //判断登陆名是否重复
+	public String create(User user, BindingResult result, Model model, RedirectAttributes attrs) {
 	    User temp = this.userService.findByLoginName(user.getLoginName());
         if(temp != null){
-            super.addError(result, "user", "loginName", "登陆名已存在，请更换");
+            super.addMessage(model, MessageStatus.WARN, "登陆名已存在，请更换");
             setModel(model);
             return "system/user/form";
         }
@@ -86,21 +83,7 @@ public class UserController extends BaseController{
 	}
 	
 	@PostMapping("/update/{pid}")
-    public String update(@Valid User user, BindingResult result, Model model, RedirectAttributes attrs) {
-        if(result.hasErrors()){
-            boolean tag = false;
-            for(FieldError f : result.getFieldErrors()){
-                if(f.getField().equals("password") || f.getField().equals("salt")){
-                    continue;
-                }
-                tag = true;
-            }
-            if(tag){
-                setModel(model);
-                return "system/user/form";
-            }
-        }
-        
+    public String update(User user, BindingResult result, Model model, RedirectAttributes attrs) {
         userService.save(user);
         super.addMessage(attrs, "更新用户成功");
         return "redirect:/sys/system/user";
@@ -110,7 +93,7 @@ public class UserController extends BaseController{
 	public String delete(@PathVariable("pid") Long id, RedirectAttributes attrs) {
 	    User user = userService.get(id);
 	    if(user != null && user.getLoginName().equals(Constants.ADMIN)){
-	        super.addMessage(attrs, "管理员用户不可以删除");
+	        super.addMessage(attrs, MessageStatus.WARN, "管理员用户不可以删除");
 	        return "redirect:/sys/system/user";
 	    }
 	    
@@ -128,7 +111,7 @@ public class UserController extends BaseController{
             passwordHelper.encryptPassword(u);//加密密码
         }
         this.userService.initPasswordBatch(user.getUsers());
-        super.addMessage(attrs, user.getLoginName() + "密码初始化成功, 默认为：" + Constants.INIT_PASSWORD);
+        super.addMessage(attrs, "密码初始化成功, 默认为：" + Constants.INIT_PASSWORD);
         return "redirect:/sys/system/user";
     }
 	
@@ -156,6 +139,34 @@ public class UserController extends BaseController{
         this.userService.updateUserStatusBatch(user.getUsers());
         super.addMessage(attrs, "禁用成功");
         return "redirect:/sys/system/user";
+    }
+    
+    //修改密码
+    @PostMapping("/modifyPassword")
+    public String modifyPassword(User user, RedirectAttributes attrs) {
+        if(StringUtils.isBlank(user.getPassword()) || StringUtils.isBlank(user.getRePassword()) || StringUtils.isBlank(user.getReTwoPassword())){
+            super.addMessage(attrs, MessageStatus.ERROR, "密码不能为空");
+            return "redirect:/sys/index";
+        }
+        
+        if(!user.getRePassword().equals(user.getReTwoPassword())){
+            super.addMessage(attrs, MessageStatus.ERROR, "两次新密码输入不一致");
+            return "redirect:/sys/index";
+        }
+        
+        User sessionUser = SessionUtils.getUser();
+        String saltPass = passwordHelper.getNewPassword(user.getPassword(), sessionUser.getCredentialsSalt());
+        if(!sessionUser.getPassword().equals(saltPass)){
+            super.addMessage(attrs, MessageStatus.ERROR, "旧密码输入不正确");
+            return "redirect:/sys/index";
+        }
+        
+        sessionUser.setPassword(user.getRePassword());
+        passwordHelper.encryptPassword(sessionUser);
+        
+        this.userService.modifyPassword(sessionUser);
+        super.addMessage(attrs, "密码修改成功");
+        return "redirect:/sys/index";
     }
 	
 	@RequestMapping

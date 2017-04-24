@@ -78,6 +78,7 @@ CREATE TABLE `tb_img_news` (
   `content` longtext,
   `status` smallint(1) DEFAULT NULL COMMENT '待审核;\n            审核通过;\n            已上刊;\n            已下刊',
   `check_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `order_num`  int(11) default 0,
   `push_status` smallint(1) DEFAULT NULL COMMENT '已推送;未推送',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -121,7 +122,7 @@ CREATE TABLE `tb_nav_content` (
 #
 
 CREATE TABLE `tb_nav_info` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `title` varchar(500) DEFAULT NULL,
   `type` smallint(1) DEFAULT NULL COMMENT '交通类;文章类等',
   `status` smallint(1) DEFAULT NULL COMMENT '待审核;\n            审核通过;\n            已上刊;\n            已下刊',
@@ -197,3 +198,24 @@ CREATE TABLE `tb_template` (
 #
 #2017-04-11 15:00 ath end
 #
+
+CREATE TABLE `t_log_access` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `requestUrl` varchar(500) DEFAULT NULL,
+  `params` varchar(2500) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `t_log_login` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `loginName` varchar(100) DEFAULT NULL,
+  `date` datetime DEFAULT NULL,
+  `userAgent` varchar(2000) DEFAULT NULL,
+  `ip` varchar(100) DEFAULT NULL,
+  `status` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;

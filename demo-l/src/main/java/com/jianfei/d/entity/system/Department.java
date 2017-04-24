@@ -1,5 +1,7 @@
 package com.jianfei.d.entity.system;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +26,8 @@ public class Department extends BaseEntity{
     private Department parent; //上级部门
     
     private Integer sort = 1; //排序号(默认1)
+    
+    @FormQuery
+    private List<Long> departments;
     
 }

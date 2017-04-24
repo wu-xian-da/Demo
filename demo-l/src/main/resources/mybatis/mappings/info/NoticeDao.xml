@@ -117,7 +117,14 @@
   <update id="updateNoticeStatusBatch" parameterType="java.util.List">
   	  <foreach collection="list" item="notice" index="index" separator=";">
          UPDATE tb_notice
-         set status = #{notice.status}
+         <set>
+         	<if test="notice.status != null">
+         		status = #{notice.status},
+         	</if>
+         	<if test="notice.checkTime != null">
+         		check_time = #{notice.checkTime},
+         	</if>
+         </set>
          where id = #{notice.id}
       </foreach>
   </update>
@@ -129,4 +136,29 @@
          where id = #{notice.id}
       </foreach>
   </update>
+  
+  <select id="getTopNByStatus" resultType="com.jianfei.d.entity.info.Notice">
+  	select 
+  		<include refid="Base_Column_List"></include>
+  	from tb_notice n where n.status = #{status} 
+  	limit 0,5
+  </select>
+  
+  <select id="getListByStatus" resultType="com.jianfei.d.entity.info.Notice">
+  	select 
+  	<include refid="Base_Column_List"></include>
+  	from tb_notice n where n.status = #{status}
+  </select>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
+

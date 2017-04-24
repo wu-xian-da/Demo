@@ -100,7 +100,7 @@ public class ImgNewsController extends BaseController{
 		imgNews.fileterImgNewss();
 		
 		for (ImgNews news : imgNews.getImgNewss()) {
-			news.setStatus(InfoStatus.SHTG);
+			news.setStatus(InfoStatus.YSK);
 			news.setCheckTime(new Date());
 		}
 		

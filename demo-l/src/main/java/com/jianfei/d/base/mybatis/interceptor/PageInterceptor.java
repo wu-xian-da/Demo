@@ -1,6 +1,5 @@
-package com.jianfei.d.base.interceptor;
+package com.jianfei.d.base.mybatis.interceptor;
 
-import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,7 +20,6 @@ import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 
 import com.jianfei.d.base.filter.page.PageContext;
-import com.jianfei.d.entity.common.Page;
 import com.jianfei.d.entity.common.PageParam;
 
 /**
@@ -37,8 +35,6 @@ public class PageInterceptor implements Interceptor {
     private final String PAGE_SQL = "%s limit %s,%s";
 
     private final Set<String> cacheMapperPageId = new HashSet<>();
-    private final Set<String> cacheMapperNotPageId = new HashSet<>();
-    
 
     public Object intercept(Invocation invocation) throws Throwable {
         StatementHandler statementHandler = (StatementHandler)invocation.getTarget();
@@ -66,37 +62,19 @@ public class PageInterceptor implements Interceptor {
         if (target instanceof RoutingStatementHandler) {
             MetaObject routingMeta = SystemMetaObject.forObject(target);
             MappedStatement mappedStatement = (MappedStatement)routingMeta.getValue("delegate.mappedStatement");
-            String id = mappedStatement.getId(); //Mapper Select Id
+            String id = mappedStatement.getId();
 
-            if (cacheMapperPageId.contains(id)) {
+            if(cacheMapperPageId.contains(id)) {
                 return Plugin.wrap(target, this);
-            }
-
-            if (cacheMapperNotPageId.contains(id)) {
-                return target;
-            }
-
-            String className = id.substring(0, id.lastIndexOf("."));
-            String methodName = id.substring(id.lastIndexOf(".") + 1);
-            try {
-                Class<?> daoClass = Class.forName(className);
-                Method daoClassMethods[] = daoClass.getMethods();
-                for (Method method : daoClassMethods) {
-                    if (method.getName().equals(methodName) && method.getReturnType() == Page.class) {
-                        //针对Mybatis Mapper 返回值为Page类型的 进行分页拦截代理
-                        cacheMapperPageId.add(id);
-                        return Plugin.wrap(target, this);
-                    }
-                }
-                cacheMapperNotPageId.add(id);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         }
         return target;
     }
 
     public void setProperties(Properties properties) {
-
+    }
+    
+    public void addPageId(String id){
+        this.cacheMapperPageId.add(id);
     }
 }

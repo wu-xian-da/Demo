@@ -8,7 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jianfei.d.common.config.FileConfig;
 import com.jianfei.d.common.vo.FileMeta;
-import com.jianfei.w.common.utils.JodaUtil;
 
 public class FileUtils {
     

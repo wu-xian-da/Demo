@@ -11,9 +11,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jianfei.d.common.utils.HttpUtils;
 import com.jianfei.d.common.utils.SessionUtils;
-import com.jianfei.w.entity.system.LogAccess;
-import com.jianfei.w.entity.system.User;
-import com.jianfei.w.service.system.LogAccessService;
+import com.jianfei.d.entity.system.LogAccess;
+import com.jianfei.d.entity.system.User;
+import com.jianfei.d.service.system.LogAccessService;
 
 /**
  * 访问日志拦截

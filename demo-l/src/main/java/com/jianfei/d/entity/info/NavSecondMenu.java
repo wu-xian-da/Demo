@@ -25,6 +25,7 @@ public class NavSecondMenu extends BaseEntity{
     private Long menuContentTemplateId;//内容模板ID
 
     private Long navId;//所属基础栏目ID
+    private String navName;//所属栏目名称
 
     private Date createTime;
 

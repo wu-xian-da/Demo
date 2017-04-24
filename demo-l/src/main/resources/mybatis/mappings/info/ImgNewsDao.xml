@@ -8,13 +8,14 @@
     n.img_path imgPath, 
     n.status status, 
     n.check_time checkTime, 
+    n.order_num orderNum,
     n.push_status pushStatus, 
     n.content content
     n.create_time createTime, 
     n.update_time updateTime
   </sql>
   
-  <insert id="insert" parameterType="com.jianfei.d.entity.info.ImgNews" >
+  <insert id="insert" parameterType="com.jianfei.w.entity.info.ImgNews" >
     insert into tb_img_news
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="title != null" >
@@ -28,6 +29,9 @@
       </if>
       <if test="checkTime != null" >
         check_time,
+      </if>
+      <if test="orderNum != null" >
+        order_num,
       </if>
       <if test="pushStatus != null" >
         push_status,
@@ -52,6 +56,9 @@
       <if test="checkTime != null" >
         #{checkTime},
       </if>
+      <if test="orderNum != null" >
+        #{orderNum},
+      </if>
       <if test="pushStatus != null" >
         #{pushStatus},
       </if>
@@ -69,7 +76,7 @@
     where id = #{id}
   </delete>
   
-  <update id="update" parameterType="com.jianfei.d.entity.info.ImgNews" >
+  <update id="update" parameterType="com.jianfei.w.entity.info.ImgNews" >
     update tb_img_news
     <set >
       <if test="title != null" >
@@ -84,6 +91,9 @@
       <if test="checkTime != null" >
         check_time = #{checkTime},
       </if>
+      <if test="orderNum != null" >
+        order_num = #{orderNum},
+      </if>
       <if test="pushStatus != null" >
         push_status = #{pushStatus},
       </if>
@@ -97,14 +107,14 @@
     where id = #{id}
   </update>
   
-  <select id="get" resultType="com.jianfei.d.entity.info.ImgNews" parameterType="java.lang.Long" >
+  <select id="get" resultType="com.jianfei.w.entity.info.ImgNews" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
     from tb_img_news n
     where n.id = #{id}
   </select>
   
-  <select id="findPage" resultType="com.jianfei.d.entity.info.ImgNews">
+  <select id="findPage" resultType="com.jianfei.w.entity.info.ImgNews">
   	select 
     	<include refid="Base_Column_List" />
     from tb_img_news n
@@ -127,7 +137,14 @@
   <update id="updateImgNewStatusBatch" parameterType="java.util.List">
   	  <foreach collection="list" item="imgNew" index="index" separator=";">
          UPDATE tb_img_news
-         set status = #{imgNew.status}
+         <set>
+            <if test="imgNew.status != null" >
+		        status = #{imgNew.status},
+		      </if>
+		      <if test="imgNew.checkTime != null" >
+		        check_time = #{imgNew.checkTime},
+		      </if>
+         </set>
          where id = #{imgNew.id}
       </foreach>
   </update>
@@ -139,4 +156,13 @@
          where id = #{imgNew.id}
       </foreach>
   </update>
+  
+  <select id="getListByStatus" resultType="com.jianfei.w.entity.info.ImgNews">
+    select 
+    	<include refid="Base_Column_List" />
+    from tb_img_news n
+    where n.status = #{status}
+    ORDER BY n.order_num DESC, n.check_time DESC
+    Limit 0, 5
+  </select>
 </mapper>

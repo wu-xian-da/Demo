@@ -1,7 +1,5 @@
 package com.jianfei.d.controller.system;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +27,7 @@ public class DepartmentController extends BaseController{
     private DepartmentService departmentService;
     
     private void setModel(Model model){
-        model.addAttribute("parents", this.departmentService.getParent());
+        model.addAttribute("departmentTree", super.buildTree(this.departmentService.findTree()));
     }
     
     @GetMapping("/create")
@@ -39,11 +37,7 @@ public class DepartmentController extends BaseController{
     }
     
     @PostMapping("/create")
-    public String create(@Valid Department department, BindingResult result, Model model, RedirectAttributes attrs){
-        if(result.hasErrors()){
-            return "system/department/form";
-        }
-        
+    public String create(Department department, BindingResult result, Model model, RedirectAttributes attrs){
         this.departmentService.save(department);
         super.addMessage(attrs, "部门保存成功");
         return "redirect:/sys/system/department";
@@ -58,11 +52,7 @@ public class DepartmentController extends BaseController{
     }
     
     @PostMapping("/update/{pid}")
-    public String update(@Valid Department department, BindingResult result, Model model, RedirectAttributes attrs){
-        if(result.hasErrors()){
-            return "system/department/form";
-        }
-        
+    public String update(Department department, BindingResult result, Model model, RedirectAttributes attrs){
         this.departmentService.update(department);
         super.addMessage(attrs, "部门更新成功");
         return "redirect:/sys/system/department";

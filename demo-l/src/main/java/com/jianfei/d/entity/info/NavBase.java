@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,12 +24,9 @@ public class NavBase extends BaseEntity{
 
 	private static final long serialVersionUID = 2620640114510574465L;
 
-	@NotBlank(message="栏目名称不能为空")
-    @Length(max=200, message="栏目名称长度不能超过200")
 	@FormQuery
 	private String navName;//名称
 
-	@NotBlank(message="栏目类型不能为空")
     private NavType navType;//类型(下辖二级菜单;无二级菜单;URL外链)
 
     private NavLevel navLevel;//层级(一级栏目;二级栏目;)
@@ -77,5 +71,11 @@ public class NavBase extends BaseEntity{
     
     //URL外链内容
     private NavUrl navUrl = null;
+    
+    //栏目列表页模板
+    private Template listTemplate = null;
+    
+    //栏目内容页模板
+    private Template contentTemplate = null;
     
 }

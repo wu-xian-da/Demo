@@ -1,7 +1,5 @@
 package com.jianfei.d.controller.system;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,11 +41,7 @@ public class MenuController extends BaseController{
     }
     
     @PostMapping("/create")
-    public String create(@Valid Menu menu, BindingResult result, Model model, RedirectAttributes attrs){
-        if(result.hasErrors()){
-            return "system/menu/form";
-        }
-        
+    public String create(Menu menu, BindingResult result, Model model, RedirectAttributes attrs){
         this.menuService.save(menu);
         super.addMessage(attrs, "菜单保存成功");
         return "redirect:/sys/system/menu";
@@ -62,11 +56,7 @@ public class MenuController extends BaseController{
     }
     
     @PostMapping("/update/{pid}")
-    public String update(@Valid Menu menu, BindingResult result, Model model, RedirectAttributes attrs){
-        if(result.hasErrors()){
-            return "system/menu/form";
-        }
-        
+    public String update(Menu menu, BindingResult result, Model model, RedirectAttributes attrs){
         this.menuService.update(menu);
         super.addMessage(attrs, "菜单更新成功");
         return "redirect:/sys/system/menu";

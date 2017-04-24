@@ -4,6 +4,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -76,19 +77,22 @@ public class ShiroDbRealm extends AuthorizingRealm {
         try{
             user = this.userService.findByLoginName(token.getUsername());
         }catch(Exception e){
-            throw new AuthenticationException("账号异常,请联系管理员");
+            throw new AuthenticationException("账号异常");
         }
         
         if(user == null || user.getStatus() == UserStatus.CLOSE){
-            throw new UnknownAccountException("账号不存在, 请确认");
+            throw new UnknownAccountException("账号不存在");
         }
-        else{
-            String newPass = this.passwordHelper.getNewPassword(token.getPassword(), user.getCredentialsSalt());
-            if(newPass.equals(user.getPassword())){
-                return user;
-            }
-            throw new IncorrectCredentialsException("密码不正确"); //密码不正确
+        
+        if(user.getStatus() == UserStatus.CLOSE){
+            throw new LockedAccountException("账号已锁定");
         }
+        
+        String newPass = this.passwordHelper.getNewPassword(token.getPassword(), user.getCredentialsSalt());
+        if(newPass.equals(user.getPassword())){
+            return user;
+        }
+        throw new IncorrectCredentialsException("密码不正确");
     }
     
 }

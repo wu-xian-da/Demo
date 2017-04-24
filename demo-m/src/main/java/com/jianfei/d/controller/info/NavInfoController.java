@@ -118,7 +118,7 @@ public class NavInfoController extends BaseController{
 		navInfo.fileterNavInfos();
 		
 		for (NavInfo n : navInfo.getInfos()) {
-			n.setStatus(InfoStatus.SHTG);
+			n.setStatus(InfoStatus.YSK);
 			n.setCheckTime(new Date());
 		}
 		

@@ -25,6 +25,8 @@
     <mvc:interceptors>
     	<mvc:interceptor>
     		<mvc:mapping path="/**" />
+    		<mvc:exclude-mapping path="/login"/>
+    		<mvc:exclude-mapping path="/sys/system/user/modifyPassword"/>
 			<bean class="com.jianfei.d.base.interceptor.LogAccessInterceptor" />
     	</mvc:interceptor>
     </mvc:interceptors>

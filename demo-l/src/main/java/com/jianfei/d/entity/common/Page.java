@@ -22,6 +22,8 @@ import com.jianfei.d.base.annotation.FormQuery;
 @Getter
 @Setter
 public class Page<T> {
+    
+    private int[] defaultPageSizeSelect = {10, 20, 30, 50};
 	
 	private int pageNo; //当前页码
 	
@@ -125,11 +127,21 @@ public class Page<T> {
         }
 	}
 	
-	private void converObjToString(List<String> params, String key, Object fieldValue){
+	@SuppressWarnings("unchecked")
+    private void converObjToString(List<String> params, String key, Object fieldValue){
 	    if(fieldValue != null){
 	        String fieldValueStr = null;
-	        if(fieldValue.getClass() == Date.class){
+	        if(fieldValue instanceof Date){
 	            fieldValueStr = JodaUtil.format((Date)fieldValue);
+	        }
+	        else if(fieldValue.getClass().isArray()){
+	            //
+	        }
+	        else if(fieldValue instanceof List){
+	            List<Object> list = (List<Object>)fieldValue;
+	            for(int i=0; i < list.size(); i++){
+	                params.add(key + "["+i+"]=" + list.get(i).toString());
+	            }
 	        }
 	        else{
 	            fieldValueStr = fieldValue.toString();

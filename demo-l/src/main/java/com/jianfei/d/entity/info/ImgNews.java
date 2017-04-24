@@ -4,9 +4,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,17 +23,19 @@ public class ImgNews extends BaseEntity {
 	
 	private static final long serialVersionUID = 1892982395026689338L;
 
-	@NotBlank(message="图片标题不能为空")
-    @Length(max=500, message="图片标题长度不能超过500")
+	//@NotBlank(message="图片标题不能为空")
+   // @Length(max=500, message="图片标题长度不能超过500")
 	@FormQuery
     private String title;//图片标题
 
     private String imgPath;//图片路径
 
     @FormQuery
-    private InfoStatus status = InfoStatus.DSH;//状态(待审核;审核通过;已上刊;已下刊)
+    private InfoStatus status;//状态(待审核;审核通过;已上刊;已下刊)
 
     private Date checkTime;//发布时间(审核时间)
+    
+    private Integer orderNum;//排序
 
     private InfoPushStatus pushStatus = InfoPushStatus.WTS;//推送状态(已推送;未推送)
     

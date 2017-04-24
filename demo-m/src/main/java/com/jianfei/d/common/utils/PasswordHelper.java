@@ -6,7 +6,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
-import com.jianfei.w.entity.system.User;
+import com.jianfei.d.entity.system.User;
 
 /**
  * 加密服务

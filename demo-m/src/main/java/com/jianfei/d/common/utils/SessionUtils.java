@@ -5,7 +5,7 @@ import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
-import com.jianfei.w.entity.system.User;
+import com.jianfei.d.entity.system.User;
 
 public class SessionUtils {
     

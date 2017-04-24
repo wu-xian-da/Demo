@@ -35,9 +35,11 @@ public class ShiroFilerChainManager {
 
     @PostConstruct
     public void init() {
+    	/*
         defaultFilterChains = new HashMap<String, NamedFilterList>(filterChainManager.getFilterChains());
         List<Menu> menus = this.menuService.findAll();
         initFilterChains(menus);
+        */
     }
     
     public void initFilterChains(List<Menu> menus) {

@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.jianfei.d.controller.base.BaseController;
-import com.jianfei.w.entity.system.Role;
-import com.jianfei.w.service.system.MenuService;
-import com.jianfei.w.service.system.RoleService;
-import com.jianfei.w.service.system.UserService;
+import com.jianfei.d.common.vo.MessageStatus;
+import com.jianfei.d.entity.system.Role;
+import com.jianfei.d.service.system.MenuService;
+import com.jianfei.d.service.system.RoleService;
+import com.jianfei.d.service.system.UserService;
 
 /**
  * 系统角色
@@ -47,19 +48,20 @@ public class RoleController extends BaseController{
     }
 
     @PostMapping("/create")
-    public String create(@Valid Role role, BindingResult result, Model model, RedirectAttributes attrs) {
-        if(result.hasErrors()){
-            setModel(model);
-            return "system/role/form";
-        }
+    public String create(Role role, BindingResult result, Model model, RedirectAttributes attrs) {
         Integer count = this.roleService.getCountByRoleName(role);
         if(count != null && count > 0){
-            super.addError(result, "role", "name", "角色名称已存在，请更换");
+            super.addMessage(model, MessageStatus.WARN, "角色名称已存在，请更换");
             setModel(model);
             return "system/role/form";
         }
         
+        if(role.getMenus() == null || role.getMenus().isEmpty()){
+            super.addMessage(attrs, MessageStatus.WARN, "角色没有选择授权信息");
+            return "redirect:/sys/system/role";
+        }
         role.filterResource(); //去除空元素
+        
         this.roleService.save(role);
         super.addMessage(attrs, "保存角色成功");
         return "redirect:/sys/system/role";
@@ -74,21 +76,22 @@ public class RoleController extends BaseController{
     }
     
     @PostMapping("/update/{pid}")
-    public String update(@Valid Role role, BindingResult result, Model model, RedirectAttributes attrs){
-        if(result.hasErrors()){
-            setModel(model);
-            return "system/role/form";
-        }
+    public String update(Role role, BindingResult result, Model model, RedirectAttributes attrs){
         if(!role.getName().equals(role.getOldName())){
             Integer count = this.roleService.getCountByRoleName(role);
             if(count != null && count > 0){
-                super.addError(result, "role", "name", "角色名称已存在，请更换");
+                super.addMessage(attrs, MessageStatus.WARN, "角色名称已存在，请更换");
                 setModel(model);
                 return "system/role/form";
             }
         }
         
+        if(role.getMenus() == null || role.getMenus().isEmpty()){
+            super.addMessage(attrs, MessageStatus.WARN, "角色没有选择授权信息");
+            return "redirect:/sys/system/role";
+        }
         role.filterResource(); //去除空元素
+        
         this.roleService.update(role);
         super.addMessage(attrs, "角色更新成功");
         return "redirect:/sys/system/role";
@@ -101,7 +104,7 @@ public class RoleController extends BaseController{
             super.addMessage(attrs, "角色删除成功");
         }
         catch(Exception e){
-            super.addMessage(attrs, "角色删除失败，有用户正在使用当前角色");
+            super.addMessage(attrs, MessageStatus.ERROR, "角色删除失败，有用户正在使用当前角色");
         }
         return "redirect:/sys/system/role";
     }

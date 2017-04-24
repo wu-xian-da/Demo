@@ -15,7 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 * @author ZhangBo   
 * @date 2015年5月26日 下午6:14:54
  */
-@WebFilter(urlPatterns="/*",filterName="filter0")
+//@WebFilter(urlPatterns="/*",filterName="filter0")
 public class XssFilter extends OncePerRequestFilter{
 
     @Override

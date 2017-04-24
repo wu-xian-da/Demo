@@ -110,6 +110,9 @@
   <select id="get" resultType="com.jianfei.d.entity.info.NavInfo" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
+    	,
+    	n.id AS "navBase.id",
+    	n.nav_name AS "navBase.navName"
     from tb_nav_info i, tb_nav_base n
     where i.nav_id = n.id
     and i.id = #{id}
@@ -118,6 +121,9 @@
   <select id="findPage" resultType="com.jianfei.d.entity.info.NavInfo" >
     select 
     	<include refid="Base_Column_List" />
+    	,
+    	n.id AS "navBase.id",
+    	n.nav_name AS "navBase.navName"
     from tb_nav_info i, tb_nav_base n
     where i.nav_id = n.id
     <if test="null != title">
@@ -138,6 +144,9 @@
   <select id="getListByNavId" resultType="com.jianfei.d.entity.info.NavInfo" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
+    	,
+    	n.id AS "navBase.id",
+    	n.nav_name AS "navBase.navName"
     from tb_nav_info i, tb_nav_base n
     where i.nav_id = n.id
     and i.nav_id = #{navId}
@@ -146,7 +155,14 @@
   <update id="updateNavInfoStatusBatch" parameterType="java.util.List">
   	  <foreach collection="list" item="navInfo" index="index" separator=";">
          UPDATE tb_nav_info
-         set status = #{navInfo.status}
+        <set>
+            <if test="navInfo.status != null" >
+		        status = #{navInfo.status},
+		      </if>
+		      <if test="navInfo.checkTime != null" >
+		        check_time = #{navInfo.checkTime},
+		      </if>
+         </set>
          where id = #{navInfo.id}
       </foreach>
   </update>
@@ -158,4 +174,16 @@
          where id = #{navInfo.id}
       </foreach>
   </update>
+  
+  <select id="getListByNavIdAndStatus" resultType="com.jianfei.w.entity.info.NavInfo" parameterType="java.util.Map" >
+    select 
+    	<include refid="Base_Column_List" />
+    	,
+    	n.id AS "navBase.id",
+    	n.nav_name AS "navBase.navName"
+    from tb_nav_info i, tb_nav_base n
+    where i.nav_id = n.id
+    and i.nav_id = #{navId}
+    and i.status = #{status}
+  </select>
 </mapper>

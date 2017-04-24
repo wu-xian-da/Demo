@@ -99,7 +99,7 @@ public class NoticeController extends BaseController{
 		notice.fileterNotices();
 		
 		for (Notice n : notice.getNotices()) {
-			n.setStatus(InfoStatus.SHTG);
+			n.setStatus(InfoStatus.YSK);
 			n.setCheckTime(new Date());
 		}
 		
@@ -133,7 +133,7 @@ public class NoticeController extends BaseController{
 	}
 	
 	//上刊
-	@GetMapping("/check/ysk")
+	/*@GetMapping("/check/ysk")
 	public String checkYSK(Notice notice, RedirectAttributes attrs){
 		notice.fileterNotices();
 		
@@ -149,7 +149,7 @@ public class NoticeController extends BaseController{
 		}
 		
 		return "redirect:/sys/info/notice";
-	}
+	}*/
 	
 	//恢复上刊
 	@GetMapping("/check/hfsk")

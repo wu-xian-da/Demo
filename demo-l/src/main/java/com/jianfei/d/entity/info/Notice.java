@@ -49,6 +49,13 @@ public class Notice extends BaseEntity{
     private Date updateTime;
     
     @FormQuery
+    private Date beginCheckTime;//时间检索字段
+
+    @FormQuery
+    private Date endCheckTime;//时间检索字段
+    /**
+     @FormQuery
+     
     private String beginCheckTime;//时间检索字段
 
     @FormQuery
@@ -91,7 +98,7 @@ public class Notice extends BaseEntity{
     		return null;
     	}
     }
-    
+    */
     //上刊、下刊、审核通过等
     private List<Notice> notices = null;
     
