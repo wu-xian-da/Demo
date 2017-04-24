@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jianfei.w.dao.info.NavInfoDao" >
+<mapper namespace="com.jianfei.d.dao.info.NavInfoDao" >
   
   <sql id="Base_Column_List" >
     i.id id, 
@@ -15,7 +15,7 @@
     i.update_time updateTime
   </sql>
   
-  <insert id="insert" parameterType="com.jianfei.w.entity.info.NavInfo" >
+  <insert id="insert" parameterType="com.jianfei.d.entity.info.NavInfo" >
     insert into tb_nav_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="title != null" >
@@ -76,7 +76,7 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   
-  <update id="update" parameterType="com.jianfei.w.entity.info.NavInfo" >
+  <update id="update" parameterType="com.jianfei.d.entity.info.NavInfo" >
     update tb_nav_info
     <set >
       <if test="title != null" >
@@ -107,7 +107,7 @@
     where id = #{id}
   </update>
   
-  <select id="get" resultType="com.jianfei.w.entity.info.NavInfo" parameterType="java.lang.Long" >
+  <select id="get" resultType="com.jianfei.d.entity.info.NavInfo" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
     from tb_nav_info i, tb_nav_base n
@@ -115,7 +115,7 @@
     and i.id = #{id}
   </select>
   
-  <select id="findPage" resultType="com.jianfei.w.entity.info.NavInfo" >
+  <select id="findPage" resultType="com.jianfei.d.entity.info.NavInfo" >
     select 
     	<include refid="Base_Column_List" />
     from tb_nav_info i, tb_nav_base n
@@ -135,7 +135,7 @@
     order by i.status asc, i.create_time desc
   </select>
   
-  <select id="getListByNavId" resultType="com.jianfei.w.entity.info.NavInfo" parameterType="java.lang.Long" >
+  <select id="getListByNavId" resultType="com.jianfei.d.entity.info.NavInfo" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
     from tb_nav_info i, tb_nav_base n

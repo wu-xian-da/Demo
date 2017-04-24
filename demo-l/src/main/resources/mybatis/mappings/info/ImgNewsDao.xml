@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jianfei.w.dao.info.ImgNewsDao" >
+<mapper namespace="com.jianfei.d.dao.info.ImgNewsDao" >
   
   <sql id="Base_Column_List" >
     n.id id, 
@@ -14,7 +14,7 @@
     n.update_time updateTime
   </sql>
   
-  <insert id="insert" parameterType="com.jianfei.w.entity.info.ImgNews" >
+  <insert id="insert" parameterType="com.jianfei.d.entity.info.ImgNews" >
     insert into tb_img_news
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="title != null" >
@@ -69,7 +69,7 @@
     where id = #{id}
   </delete>
   
-  <update id="update" parameterType="com.jianfei.w.entity.info.ImgNews" >
+  <update id="update" parameterType="com.jianfei.d.entity.info.ImgNews" >
     update tb_img_news
     <set >
       <if test="title != null" >
@@ -97,14 +97,14 @@
     where id = #{id}
   </update>
   
-  <select id="get" resultType="com.jianfei.w.entity.info.ImgNews" parameterType="java.lang.Long" >
+  <select id="get" resultType="com.jianfei.d.entity.info.ImgNews" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
     from tb_img_news n
     where n.id = #{id}
   </select>
   
-  <select id="findPage" resultType="com.jianfei.w.entity.info.ImgNews">
+  <select id="findPage" resultType="com.jianfei.d.entity.info.ImgNews">
   	select 
     	<include refid="Base_Column_List" />
     from tb_img_news n

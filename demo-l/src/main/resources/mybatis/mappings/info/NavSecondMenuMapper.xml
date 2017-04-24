@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jianfei.w.dao.info.NavSecondMenuDao" >
+<mapper namespace="com.jianfei.d.dao.info.NavSecondMenuDao" >
   
   <sql id="Base_Column_List" >
     m.id id, 
@@ -12,7 +12,7 @@
     m.update_time update_time
   </sql>
   
-  <insert id="insert" parameterType="com.jianfei.w.entity.info.NavSecondMenu" >
+  <insert id="insert" parameterType="com.jianfei.d.entity.info.NavSecondMenu" >
     insert into tb_nav_second_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="menuHeadIcon != null" >
@@ -55,7 +55,7 @@
     where id = #{id}
   </delete>
   
-  <update id="update" parameterType="com.jianfei.w.entity.info.NavSecondMenu" >
+  <update id="update" parameterType="com.jianfei.d.entity.info.NavSecondMenu" >
     update tb_nav_second_menu
     <set >
       <if test="menuHeadIcon != null" >
@@ -77,7 +77,7 @@
     where id = #{id}
   </update>
   
-  <select id="get" resultType="com.jianfei.w.entity.info.NavSecondMenu" parameterType="java.lang.Long" >
+  <select id="get" resultType="com.jianfei.d.entity.info.NavSecondMenu" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
 	    	,
@@ -101,7 +101,7 @@
     where nav_id = #{navId}
   </delete>
   
-  <update id="updateByNavId" parameterType="com.jianfei.w.entity.info.NavSecondMenu" >
+  <update id="updateByNavId" parameterType="com.jianfei.d.entity.info.NavSecondMenu" >
     update tb_nav_second_menu
     <set >
       <if test="menuHeadIcon != null" >
@@ -120,7 +120,7 @@
     where nav_id = #{navId}
   </update>
   
-  <select id="getByNavId" resultType="com.jianfei.w.entity.info.NavSecondMenu" parameterType="java.lang.Long" >
+  <select id="getByNavId" resultType="com.jianfei.d.entity.info.NavSecondMenu" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
     	,
@@ -138,7 +138,7 @@
     where m.nav_id = #{navId}
   </select>
   
-  <select id="getListByTemplateId" resultType="com.jianfei.w.entity.info.NavSecondMenu" parameterType="java.util.Map" >
+  <select id="getListByTemplateId" resultType="com.jianfei.d.entity.info.NavSecondMenu" parameterType="java.util.Map" >
     select 
     	<include refid="Base_Column_List" />
     from tb_nav_second_menu m

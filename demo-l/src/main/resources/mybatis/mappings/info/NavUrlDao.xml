@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jianfei.w.dao.info.NavUrlDao" >
+<mapper namespace="com.jianfei.d.dao.info.NavUrlDao" >
   
   <sql id="Base_Column_List" >
     u.id id, 
@@ -11,7 +11,7 @@
     u.update_time updateTime
   </sql>
   
-  <insert id="insert" parameterType="com.jianfei.w.entity.info.NavUrl" >
+  <insert id="insert" parameterType="com.jianfei.d.entity.info.NavUrl" >
     insert into tb_nav_url
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="url != null" >
@@ -48,7 +48,7 @@
     where id = #{id}
   </delete>
   
-  <update id="update" parameterType="com.jianfei.w.entity.info.NavUrl" >
+  <update id="update" parameterType="com.jianfei.d.entity.info.NavUrl" >
     update tb_nav_url
     <set >
       <if test="url != null" >
@@ -67,7 +67,7 @@
     where id = #{id}
   </update>
   
-  <select id="get" resultType="com.jianfei.w.entity.info.NavUrl" parameterType="java.lang.Long" >
+  <select id="get" resultType="com.jianfei.d.entity.info.NavUrl" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from tb_nav_url u
@@ -79,7 +79,7 @@
     where nav_id = #{navId}
   </delete>
   
-  <update id="updateByNavId" parameterType="com.jianfei.w.entity.info.NavUrl" >
+  <update id="updateByNavId" parameterType="com.jianfei.d.entity.info.NavUrl" >
     update tb_nav_url
     <set >
       <if test="url != null" >
@@ -95,7 +95,7 @@
     where nav_id = #{navId}
   </update>
   
-  <select id="getByNavId" resultType="com.jianfei.w.entity.info.NavUrl" parameterType="java.lang.Long" >
+  <select id="getByNavId" resultType="com.jianfei.d.entity.info.NavUrl" parameterType="java.lang.Long" >
     select 
     	<include refid="Base_Column_List" />
     from tb_nav_url u
